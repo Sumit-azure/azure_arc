@@ -23,6 +23,7 @@
     },
     "spnTenantId": {
       "type": "string",
+        "defaultValue": "[subscription().tenantId]",
       "metadata": {
         "description": "Azure AD tenant id for your service principal"
       }
@@ -77,7 +78,7 @@
     },
     "githubAccount": {
       "type": "string",
-      "defaultValue": "microsoft",
+      "defaultValue": "Sumit-azure",
       "metadata": {
         "description": "Target GitHub account"
       }
@@ -105,6 +106,7 @@
     }
   },
   "variables": {
+    "AzureTenantID": "[subscription().tenantId]",
     "templateBaseUrl": "[format('https://raw.githubusercontent.com/{0}/azure_arc/{1}/azure_jumpstart_hcibox/', parameters('githubAccount'), parameters('githubBranch'))]"
   },
   "resources": [
