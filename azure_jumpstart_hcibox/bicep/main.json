@@ -365,6 +365,19 @@
               "location": "[parameters('location')]",
               "properties": {
                 "securityRules": [
+                     {
+            "name": "default-allow-rdp",
+            "properties": {
+              "priority": 1030,
+              "protocol": "TCP",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "3389"
+            }
+          },
                   {
                     "name": "bastion_allow_https_inbound",
                     "properties": {
