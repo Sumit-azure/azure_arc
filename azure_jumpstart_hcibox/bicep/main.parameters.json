@@ -8,9 +8,7 @@
         "spnClientSecret": {
             "value": "GET-SERVICEPRINCIPAL-SECRET"
         },
-        "spnTenantId": {
-            "value": "<your service principal tenant id>"
-        },
+       
         "windowsAdminUsername": {
             "value": "arcdemo"
         },
