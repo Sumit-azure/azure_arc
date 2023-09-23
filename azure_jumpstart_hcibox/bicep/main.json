@@ -852,7 +852,7 @@
               "tags": "[parameters('resourceTags')]",
               "properties": {
                 "hardwareProfile": {
-                  "vmSize": "Standard_D48s_v5"
+                  "vmSize": "Standard_E16_v5"
                 },
                 "storageProfile": {
                   "osDisk": {
