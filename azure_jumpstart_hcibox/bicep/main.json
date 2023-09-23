@@ -103,10 +103,15 @@
       "metadata": {
         "description": "Location to deploy resources"
       }
+    },
+     "DeploymentID": {
+      "type": "string"
     }
   },
   "variables": {
     "AzureTenantID": "[subscription().tenantId]",
+    "prefix": "archost",
+     "publicIpAddressDNSName": "[concat(variables('prefix'), parameters('DeploymentID'))]",
     "templateBaseUrl": "[format('https://raw.githubusercontent.com/{0}/azure_arc/{1}/azure_jumpstart_hcibox/', parameters('githubAccount'), parameters('githubBranch'))]"
   },
   "resources": [
@@ -839,6 +844,9 @@
                 "publicIPAllocationMethod": "Static",
                 "publicIPAddressVersion": "IPv4",
                 "idleTimeoutInMinutes": 4
+                "dnsSettings": {
+          "domainNameLabel": "[variables('publicIpAddressDNSName')]"
+        }
               },
               "sku": {
                 "name": "Basic"
@@ -1013,6 +1021,10 @@
               "type": "string",
               "value": "[if(equals(parameters('deployBastion'), false()), concat(reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName')), '2021-03-01').ipAddress), '')]"
             },
+              "ARCHost VM DNS": {
+      "value": "[concat('archost',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
+      "type": "string"
+    },
             "base64Output": {
               "type": "string",
               "value": "[variables('encodedPassword')]"
