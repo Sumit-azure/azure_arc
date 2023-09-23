@@ -110,8 +110,7 @@
   },
   "variables": {
     "AzureTenantID": "[subscription().tenantId]",
-    "prefix": "archost",
-     "publicIpAddressDNSName": "[concat(variables('prefix'), parameters('DeploymentID'))]",
+    
     "templateBaseUrl": "[format('https://raw.githubusercontent.com/{0}/azure_arc/{1}/azure_jumpstart_hcibox/', parameters('githubAccount'), parameters('githubBranch'))]"
   },
   "resources": [
@@ -667,6 +666,9 @@
           },
           "location": {
             "value": "[parameters('location')]"
+          },
+           "DeploymentID": {
+            "value": "[parameters('DeploymentID')]"
           }
         },
         "template": {
@@ -798,11 +800,16 @@
               "metadata": {
                 "description": "Public DNS to use for the domain"
               }
-            }
+            },
+             "DeploymentID": {
+      "type": "string"
+    }
           },
           "variables": {
             "encodedPassword": "[base64(parameters('windowsAdminPassword'))]",
             "bastionName": "HCIBox-Bastion",
+            "prefix": "archost",
+     "publicIpAddressDNSName": "[concat(variables('prefix'), parameters('DeploymentID'))]",
             "publicIpAddressName": "[if(equals(parameters('deployBastion'), false()), format('{0}-PIP', parameters('vmName')), format('{0}-PIP', variables('bastionName')))]",
             "networkInterfaceName": "[format('{0}-NIC', parameters('vmName'))]",
             "osDiskType": "Premium_LRS",
