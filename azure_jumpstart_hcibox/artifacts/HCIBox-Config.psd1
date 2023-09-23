@@ -16,8 +16,8 @@
 
     # VM Configuration
     HostVMPath                           = "V:\VMs"                              # This value controls the path where the Nested VMs will be stored on all hosts.
-    NestedVMMemoryinGB                   = 105GB                                 # This value controls the amount of RAM for each Nested Hyper-V Host (AzSHOST1-2).
-    AzSMGMTMemoryinGB                    = 28GB                                  # This value controls the amount of RAM for the AzSMGMT Nested VM which contains only the Console, Router, Admincenter, and DC VMs.
+    NestedVMMemoryinGB                   = 48GB                                 # This value controls the amount of RAM for each Nested Hyper-V Host (AzSHOST1-2).
+    AzSMGMTMemoryinGB                    = 24GB                                  # This value controls the amount of RAM for the AzSMGMT Nested VM which contains only the Console, Router, Admincenter, and DC VMs.
     InternalSwitch                       = "InternalSwitch"                      # Name of internal switch that the HCIBox VMs will use in Single Host mode. This only applies when using a single host.
 
     # ProductKeys
@@ -54,7 +54,7 @@
     MEM_IPSEC                            = 2GB                                     # Memory provided for the ipsec-target VM
 
     # Cluster S2D Storage Disk Size (per disk)
-    S2D_Disk_Size                        = 170GB                                    # Disk size for each of the 4 dynamic VHD disks attached to the 3 AzSHOST VMs that will be used to create the SDNCLUSTER
+    S2D_Disk_Size                        = 100GB                                    # Disk size for each of the 4 dynamic VHD disks attached to the 3 AzSHOST VMs that will be used to create the SDNCLUSTER
 
     # SDN Host IPs
     AzSMGMTIP                            = "192.168.1.11/24"
