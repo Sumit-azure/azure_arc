@@ -843,7 +843,7 @@
               "properties": {
                 "publicIPAllocationMethod": "Static",
                 "publicIPAddressVersion": "IPv4",
-                "idleTimeoutInMinutes": 4
+                "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
           "domainNameLabel": "[variables('publicIpAddressDNSName')]"
         }
