@@ -8,7 +8,9 @@
         "spnClientSecret": {
             "value": "GET-SERVICEPRINCIPAL-SECRET"
         },
-       
+       "DeploymentID": {
+      "value": "GET-DEPLOYMENT-ID"
+    },
         "windowsAdminUsername": {
             "value": "arcdemo"
         },
