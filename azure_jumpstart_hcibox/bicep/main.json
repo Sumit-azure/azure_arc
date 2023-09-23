@@ -812,7 +812,7 @@
      "publicIpAddressDNSName": "[concat(variables('prefix'), parameters('DeploymentID'))]",
             "publicIpAddressName": "[if(equals(parameters('deployBastion'), false()), format('{0}-PIP', parameters('vmName')), format('{0}-PIP', variables('bastionName')))]",
             "networkInterfaceName": "[format('{0}-NIC', parameters('vmName'))]",
-            "osDiskType": "Standard_LRS",
+            "osDiskType": "Premium_LRS",
             "PublicIPNoBastion": {
               "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]"
             }
@@ -867,7 +867,7 @@
               "tags": "[parameters('resourceTags')]",
               "properties": {
                 "hardwareProfile": {
-                  "vmSize": "Standard_E16_v5"
+                  "vmSize": "Standard_E16s_v5"
                 },
                 "storageProfile": {
                   "osDisk": {
