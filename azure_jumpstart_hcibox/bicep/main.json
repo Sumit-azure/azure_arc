@@ -1044,5 +1044,12 @@
         "[resourceId('Microsoft.Resources/deployments', 'stagingStorageAccountDeployment')]"
       ]
     }
-  ]
+  ],
+  "outputs":{
+     "ARCHost VM DNS": {
+      "value": "[concat('archost',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
+      "type": "string"
+    }
+
+  }
 }
