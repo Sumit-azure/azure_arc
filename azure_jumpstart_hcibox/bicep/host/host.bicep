@@ -107,7 +107,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
   tags: resourceTags
   properties: {
     hardwareProfile: {
-      vmSize: 'Standard_E32s_v5'
+      vmSize: 'Standard_E16s_v5'
     }
     storageProfile: {
       osDisk: {
