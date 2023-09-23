@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "spnClientId": {
-            "value": "<your service principal client id>"
+            "value": "GET-SERVICEPRINCIPAL-APPLICATION-ID"
         },
         "spnClientSecret": {
-            "value": "<your service principal secret>"
+            "value": "GET-SERVICEPRINCIPAL-SECRET"
         },
         "spnTenantId": {
             "value": "<your service principal tenant id>"
