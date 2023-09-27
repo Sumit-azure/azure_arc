@@ -17,7 +17,7 @@
     # VM Configuration
     HostVMPath                           = "V:\VMs"                              # This value controls the path where the Nested VMs will be stored on all hosts.
     NestedVMMemoryinGB                   = 48GB                                 # This value controls the amount of RAM for each Nested Hyper-V Host (AzSHOST1-2).
-    AzSMGMTMemoryinGB                    = 24GB                                  # This value controls the amount of RAM for the AzSMGMT Nested VM which contains only the Console, Router, Admincenter, and DC VMs.
+    AzSMGMTMemoryinGB                    = 16GB                                  # This value controls the amount of RAM for the AzSMGMT Nested VM which contains only the Console, Router, Admincenter, and DC VMs.
     InternalSwitch                       = "InternalSwitch"                      # Name of internal switch that the HCIBox VMs will use in Single Host mode. This only applies when using a single host.
 
     # ProductKeys
@@ -49,7 +49,7 @@
     MEM_DC                               = 2GB                                     # Memory provided for the Domain Controller VM
     MEM_BGP                              = 2GB                                     # Memory provided for the BGP-ToR-Router
     MEM_Console                          = 3GB                                     # Memory provided for the Windows 10 Console VM
-    MEM_WAC                              = 10GB                                    # Memory provided for the Windows Admin Center VM
+    MEM_WAC                              = 6GB                                    # Memory provided for the Windows Admin Center VM
     MEM_GRE                              = 2GB                                     # Memory provided for the gre-target VM
     MEM_IPSEC                            = 2GB                                     # Memory provided for the ipsec-target VM
 
