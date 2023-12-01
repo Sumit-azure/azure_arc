@@ -792,12 +792,12 @@ function Set-AzSMGMT {
 
         # Disable Fabric2 Network Adapter
         $fabTwo = $null
-        while ($fabTwo -ne 'Disabled') {
-            Write-Verbose "Disabling Fabric2 Adapter"
-            Get-Netadapter FABRIC2 | Disable-NetAdapter -Confirm:$false | Out-Null
-            $fabTwo = (Get-Netadapter -Name FABRIC2).Status 
+        #while ($fabTwo -ne 'Disabled') {
+        #    Write-Verbose "Disabling Fabric2 Adapter"
+        #    Get-Netadapter FABRIC2 | Disable-NetAdapter -Confirm:$false | Out-Null
+        #    $fabTwo = (Get-Netadapter -Name FABRIC2).Status 
 
-        }
+       # }
         # Enable WinRM on AzSMGMT
         $VerbosePreference = "Continue"
         Write-Verbose "Enabling PSRemoting on $env:COMPUTERNAME"
