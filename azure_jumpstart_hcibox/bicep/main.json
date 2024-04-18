@@ -111,7 +111,7 @@
   "variables": {
     "AzureTenantID": "[subscription().tenantId]",
     
-    "templateBaseUrl": "[format('https://raw.githubusercontent.com/{0}/azure_arc/{1}/azure_jumpstart_hcibox/', parameters('githubAccount'), parameters('githubBranch'))]"
+    "templateBaseUrl": "https://raw.githubusercontent.com/microsoft/azure_arc/$main/azure_jumpstart_hcibox/"
   },
   "resources": [
     {
@@ -910,7 +910,7 @@
                     "publisher": "MicrosoftWindowsServer",
                     "offer": "WindowsServer",
                     "sku": "[parameters('windowsOSVersion')]",
-                    "version": "latest"
+                    "version": "20348.2322.240207"
                   },
                   "dataDisks": [
                     {
@@ -1036,7 +1036,7 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                   "fileUris": [
-                    "[uri(parameters('templateBaseUrl'), 'artifacts/Bootstrap.ps1')]"
+                    "[uri(parameters('templateBaseUrl'), 'artifacts/PowerShell/Bootstrap.ps1')]"
                   ],
                   "commandToExecute": "[format('powershell.exe -ExecutionPolicy Bypass -File Bootstrap.ps1 -adminUsername {0} -adminPassword {1} -spnClientId {2} -spnClientSecret {3} -spnTenantId {4} -subscriptionId {5} -resourceGroup {6} -azureLocation {7} -stagingStorageAccountName {8} -workspaceName {9} -templateBaseUrl {10} -registerCluster {11} -deployAKSHCI {12} -deployResourceBridge {13} -natDNS {14}', parameters('windowsAdminUsername'), variables('encodedPassword'), parameters('spnClientId'), parameters('spnClientSecret'), parameters('spnTenantId'), subscription().subscriptionId, resourceGroup().name, parameters('location'), parameters('stagingStorageAccountName'), parameters('workspaceName'), parameters('templateBaseUrl'), parameters('registerCluster'), parameters('deployAKSHCI'), parameters('deployResourceBridge'), parameters('natDNS'))]"
                 }
