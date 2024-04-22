@@ -31,6 +31,12 @@
         },
         "deployAKSHCI": {
             "value": true
+        },
+          "azureusername": {
+           "value": "GET-AZUSER-UPN"
+        },
+        "azurepassword": {
+           "value": "GET-AZUSER-PASSWORD"
         }
     }
 }
