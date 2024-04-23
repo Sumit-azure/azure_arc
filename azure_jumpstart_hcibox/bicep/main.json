@@ -119,7 +119,7 @@
   "variables": {
     "AzureTenantID": "[subscription().tenantId]",
     
-    "templateBaseUrl": "https://raw.githubusercontent.com/microsoft/azure_arc/main/azure_jumpstart_hcibox/"
+    "templateBaseUrl": "https://raw.githubusercontent.com/CloudLabsAI-Azure/azure_arc_2024/main/azure_jumpstart_hcibox/"
   },
   "resources": [
     {
