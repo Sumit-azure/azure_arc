@@ -571,7 +571,7 @@
 
       "kind": "AzurePowerShell",
 
-      "name": "azurestack-vm-deployment",
+      "name": "WaitSection",
 
       "location": "[parameters('location')]",
 
