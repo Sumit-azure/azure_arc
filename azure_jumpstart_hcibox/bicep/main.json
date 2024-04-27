@@ -260,323 +260,6 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
-      "name": "networkDeployment",
-      "properties": {
-        "expressionEvaluationOptions": {
-          "scope": "inner"
-        },
-        "mode": "Incremental",
-        "parameters": {
-          "deployBastion": {
-            "value": "[parameters('deployBastion')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          }
-        },
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "metadata": {
-            "_generator": {
-              "name": "bicep",
-              "version": "0.12.40.16777",
-              "templateHash": "12002154451255072834"
-            }
-          },
-          "parameters": {
-            "virtualNetworkName": {
-              "type": "string",
-              "defaultValue": "HCIBox-VNet",
-              "metadata": {
-                "description": "Name of the VNet"
-              }
-            },
-            "subnetName": {
-              "type": "string",
-              "defaultValue": "HCIBox-Subnet",
-              "metadata": {
-                "description": "Name of the subnet in the virtual network"
-              }
-            },
-            "location": {
-              "type": "string",
-              "defaultValue": "[resourceGroup().location]",
-              "metadata": {
-                "description": "Azure Region to deploy the Log Analytics Workspace"
-              }
-            },
-            "deployBastion": {
-              "type": "bool",
-              "defaultValue": false,
-              "metadata": {
-                "description": "Choice to deploy Bastion to connect to the client VM"
-              }
-            },
-            "networkSecurityGroupName": {
-              "type": "string",
-              "defaultValue": "HCIBox-NSG",
-              "metadata": {
-                "description": "Name of the Network Security Group"
-              }
-            },
-            "bastionNetworkSecurityGroupName": {
-              "type": "string",
-              "defaultValue": "HCIBox-Bastion-NSG",
-              "metadata": {
-                "description": "Name of the Bastion Network Security Group"
-              }
-            }
-          },
-          "variables": {
-            "addressPrefix": "172.16.0.0/16",
-            "subnetAddressPrefix": "172.16.1.0/24",
-            "bastionSubnetName": "AzureBastionSubnet",
-            "bastionSubnetRef": "[format('{0}/subnets/{1}', resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), variables('bastionSubnetName'))]",
-            "bastionName": "HCIBox-Bastion",
-            "bastionSubnetIpPrefix": "172.16.3.64/26",
-            "bastionPublicIpAddressName": "[format('{0}-PIP', variables('bastionName'))]"
-          },
-          "resources": [
-            {
-              "type": "Microsoft.Network/virtualNetworks",
-              "apiVersion": "2021-03-01",
-              "name": "[parameters('virtualNetworkName')]",
-              "location": "[parameters('location')]",
-              "properties": {
-                "addressSpace": {
-                  "addressPrefixes": [
-                    "[variables('addressPrefix')]"
-                  ]
-                },
-                "subnets": "[if(equals(parameters('deployBastion'), true()), createArray(createObject('name', parameters('subnetName'), 'properties', createObject('addressPrefix', variables('subnetAddressPrefix'), 'privateEndpointNetworkPolicies', 'Enabled', 'privateLinkServiceNetworkPolicies', 'Enabled', 'networkSecurityGroup', createObject('id', resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))))), createObject('name', 'AzureBastionSubnet', 'properties', createObject('addressPrefix', variables('bastionSubnetIpPrefix'), 'networkSecurityGroup', createObject('id', resourceId('Microsoft.Network/networkSecurityGroups', parameters('bastionNetworkSecurityGroupName')))))), createArray(createObject('name', parameters('subnetName'), 'properties', createObject('addressPrefix', variables('subnetAddressPrefix'), 'privateEndpointNetworkPolicies', 'Enabled', 'privateLinkServiceNetworkPolicies', 'Enabled', 'networkSecurityGroup', createObject('id', resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName')))))))]"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('bastionNetworkSecurityGroupName'))]",
-                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
-              ]
-            },
-            {
-              "type": "Microsoft.Network/networkSecurityGroups",
-              "apiVersion": "2021-03-01",
-              "name": "[parameters('networkSecurityGroupName')]",
-              "location": "[parameters('location')]",
-              "properties": {
-                "securityRules": [
- {
-            "name": "default-allow-rdp",
-            "properties": {
-              "priority": 1030,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "3389"
-            }
- }
-                ]
-              }
-            },
-            {
-              "condition": "[equals(parameters('deployBastion'), true())]",
-              "type": "Microsoft.Network/networkSecurityGroups",
-              "apiVersion": "2021-05-01",
-              "name": "[parameters('bastionNetworkSecurityGroupName')]",
-              "location": "[parameters('location')]",
-              "properties": {
-                "securityRules": [
-                     {
-            "name": "default-allow-rdp",
-            "properties": {
-              "priority": 1030,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "3389"
-            }
-          },
-                  {
-                    "name": "bastion_allow_https_inbound",
-                    "properties": {
-                      "priority": 1010,
-                      "protocol": "Tcp",
-                      "access": "Allow",
-                      "direction": "Inbound",
-                      "sourceAddressPrefix": "Internet",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "*",
-                      "destinationPortRange": "443"
-                    }
-                  },
-                  {
-                    "name": "bastion_allow_gateway_manager_inbound",
-                    "properties": {
-                      "priority": 1011,
-                      "protocol": "Tcp",
-                      "access": "Allow",
-                      "direction": "Inbound",
-                      "sourceAddressPrefix": "GatewayManager",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "*",
-                      "destinationPortRange": "443"
-                    }
-                  },
-                  {
-                    "name": "bastion_allow_load_balancer_inbound",
-                    "properties": {
-                      "priority": 1012,
-                      "protocol": "Tcp",
-                      "access": "Allow",
-                      "direction": "Inbound",
-                      "sourceAddressPrefix": "AzureLoadBalancer",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "*",
-                      "destinationPortRange": "443"
-                    }
-                  },
-                  {
-                    "name": "bastion_allow_host_comms",
-                    "properties": {
-                      "priority": 1013,
-                      "protocol": "*",
-                      "access": "Allow",
-                      "direction": "Inbound",
-                      "sourceAddressPrefix": "VirtualNetwork",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "VirtualNetwork",
-                      "destinationPortRanges": [
-                        "8080",
-                        "5701"
-                      ]
-                    }
-                  },
-                  {
-                    "name": "bastion_allow_ssh_rdp_outbound",
-                    "properties": {
-                      "priority": 1014,
-                      "protocol": "*",
-                      "access": "Allow",
-                      "direction": "Outbound",
-                      "sourceAddressPrefix": "*",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "VirtualNetwork",
-                      "destinationPortRanges": [
-                        "22",
-                        "3389"
-                      ]
-                    }
-                  },
-                  {
-                    "name": "bastion_allow_azure_cloud_outbound",
-                    "properties": {
-                      "priority": 1015,
-                      "protocol": "Tcp",
-                      "access": "Allow",
-                      "direction": "Outbound",
-                      "sourceAddressPrefix": "*",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "AzureCloud",
-                      "destinationPortRange": "443"
-                    }
-                  },
-                  {
-                    "name": "bastion_allow_bastion_comms",
-                    "properties": {
-                      "priority": 1016,
-                      "protocol": "*",
-                      "access": "Allow",
-                      "direction": "Outbound",
-                      "sourceAddressPrefix": "VirtualNetwork",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "VirtualNetwork",
-                      "destinationPortRanges": [
-                        "8080",
-                        "5701"
-                      ]
-                    }
-                  },
-                  {
-                    "name": "bastion_allow_get_session_info",
-                    "properties": {
-                      "priority": 1017,
-                      "protocol": "*",
-                      "access": "Allow",
-                      "direction": "Outbound",
-                      "sourceAddressPrefix": "*",
-                      "sourcePortRange": "*",
-                      "destinationAddressPrefix": "Internet",
-                      "destinationPortRanges": [
-                        "80",
-                        "443"
-                      ]
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "condition": "[equals(parameters('deployBastion'), true())]",
-              "type": "Microsoft.Network/publicIPAddresses",
-              "apiVersion": "2021-05-01",
-              "name": "[variables('bastionPublicIpAddressName')]",
-              "location": "[parameters('location')]",
-              "properties": {
-                "publicIPAllocationMethod": "Static",
-                "publicIPAddressVersion": "IPv4",
-                "idleTimeoutInMinutes": 4
-              },
-              "sku": {
-                "name": "Standard"
-              }
-            },
-            {
-              "condition": "[equals(parameters('deployBastion'), true())]",
-              "type": "Microsoft.Network/bastionHosts",
-              "apiVersion": "2021-05-01",
-              "name": "[variables('bastionName')]",
-              "location": "[parameters('location')]",
-              "properties": {
-                "ipConfigurations": [
-                  {
-                    "name": "IpConf",
-                    "properties": {
-                      "publicIPAddress": {
-                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('bastionPublicIpAddressName'))]"
-                      },
-                      "subnet": {
-                        "id": "[variables('bastionSubnetRef')]"
-                      }
-                    }
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('bastionPublicIpAddressName'))]"
-              ]
-            }
-          ],
-          "outputs": {
-            "vnetId": {
-              "type": "string",
-              "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-            },
-            "subnetId": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2021-03-01').subnets[0].id]"
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
       "name": "stagingStorageAccountDeployment",
       "properties": {
         "expressionEvaluationOptions": {
@@ -906,146 +589,57 @@
                 "name": "Basic"
               }
             },
-            {
-              "type": "Microsoft.Compute/virtualMachines",
-              "apiVersion": "2022-03-01",
-              "name": "[parameters('vmName')]",
-              "location": "[parameters('location')]",
-              "tags": "[parameters('resourceTags')]",
-              "properties": {
-                "hardwareProfile": {
-                  "vmSize": "Standard_E32s_v5"
-                },
-                "storageProfile": {
-                  "osDisk": {
-                    "name": "[format('{0}-OSDisk', parameters('vmName'))]",
-                    "caching": "ReadWrite",
-                    "createOption": "FromImage",
-                    "managedDisk": {
-                      "storageAccountType": "[variables('osDiskType')]"
-                    },
-                    "diskSizeGB": 1024
-                  },
-                  "imageReference": {
-                    "id": "/subscriptions/29c465b3-aedf-44db-8807-b933cd374bcc/resourceGroups/cloudlabs-mgmt/providers/Microsoft.Compute/galleries/CloudLabsSIG/images/hcs-stack-hci/versions/latest"
-                  },
-                  "dataDisks": [
-                    {
-                      "name": "ASHCIHost001_DataDisk_0",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 0,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    },
-                    {
-                      "name": "ASHCIHost001_DataDisk_1",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 1,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    },
-                    {
-                      "name": "ASHCIHost001_DataDisk_2",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 2,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    },
-                    {
-                      "name": "ASHCIHost001_DataDisk_3",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 3,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    },
-                    {
-                      "name": "ASHCIHost001_DataDisk_4",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 4,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    },
-                    {
-                      "name": "ASHCIHost001_DataDisk_5",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 5,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    },
-                    {
-                      "name": "ASHCIHost001_DataDisk_6",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 6,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    },
-                    {
-                      "name": "ASHCIHost001_DataDisk_7",
-                      "diskSizeGB": 256,
-                      "createOption": "Empty",
-                      "lun": 7,
-                      "caching": "None",
-                      "writeAcceleratorEnabled": false,
-                      "managedDisk": {
-                        "storageAccountType": "Premium_LRS"
-                      }
-                    }
-                  ]
-                },
-                "networkProfile": {
-                  "networkInterfaces": [
-                    {
-                      "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
-                    }
-                  ]
-                },
-                "osProfile": {
-                  "computerName": "[parameters('vmName')]",
-                  "adminUsername": "[parameters('windowsAdminUsername')]",
-                  "adminPassword": "[parameters('windowsAdminPassword')]",
-                  "windowsConfiguration": {
-                    "provisionVMAgent": true,
-                    "enableAutomaticUpdates": false
-                  }
-                }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
-              ]
-            },
+         
+        
+                   {
+            "type": "Microsoft.Resources/deploymentScripts",
+            "apiVersion": "2020-10-01",
+            "name": "azurestack-vm-deployment",
+            "location": "[resourceGroup().location]",
+            "kind": "AzurePowerShell",
+            "properties": {
+                "azPowerShellVersion": "5.0",
+                "arguments": "[concat('-AzureUsername', ' ', concat('\\\"', parameters('AzureUsername'), '\\\"'), '-AzurePassword', ' ', concat('\\\"', parameters('AzurePassword'), '\\\"') , '-DeploymentID', ' ', concat('\\\"', parameters('DeploymentID'), '\\\"'), '-AzureSubscriptionID', ' ' , concat('\\\"', variables('AzureSubscriptionID'), '\\\"'), '-AzureTenantID', ' ' , concat('\\\"', variables('AzureTenantID'), '\\\"'), '-AppID', ' ', concat('\\\"', parameters('AppID'), '\\\"'), '-AppSecret', ' ', concat('\\\"', parameters('AppSecret'), '\\\"'))]",
+                "primaryScriptUri": "https://raw.githubusercontent.com/Sumit-azure/azure_arc/main/azure_jumpstart_hcibox/bicep/deployvm.ps1",
+                "supportingScriptUris": [],
+                "timeout": "PT45M",
+                "cleanupPreference": "OnSuccess",
+                "retentionInterval": "P1D"
+            }
+        },
+                {
+
+      "type": "Microsoft.Resources/deploymentScripts",
+
+      "apiVersion": "2020-10-01",
+
+      "kind": "AzurePowerShell",
+
+      "name": "azurestack-vm-deployment",
+
+      "location": "[parameters('location')]",
+
+      "dependsOn": ["azurestack-vm-deployment"],
+
+      "properties": {
+
+        "azPowerShellVersion": "3.0",
+
+        "scriptContent": "start-sleep -Seconds 300",
+
+        "cleanupPreference": "Always",
+
+        "retentionInterval": "PT1H"
+
+      }
+
+    },
             {
               "type": "Microsoft.Compute/virtualMachines/extensions",
               "apiVersion": "2022-03-01",
               "name": "[format('{0}/{1}', parameters('vmName'), 'Bootstrap')]",
               "location": "[parameters('location')]",
+                "dependsOn": ["WaitSection", "azurestack-vm-deployment"],
               "properties": {
                 "publisher": "Microsoft.Compute",
                 "type": "CustomScriptExtension",
@@ -1057,10 +651,7 @@
                   ],
                
                   "commandToExecute": "[format('powershell.exe -ExecutionPolicy Bypass -File Bootstrap.ps1 -adminUsername {0} -adminPassword {1} -spnClientId {2} -spnClientSecret {3} -spnTenantId {4} -subscriptionId {5} -resourceGroup {6} -azureLocation {7} -stagingStorageAccountName {8} -workspaceName {9} -templateBaseUrl {10} -registerCluster {11} -deployAKSHCI {12} -deployResourceBridge {13} -natDNS {14} -azureUsername {15} -azurePassword {16}', parameters('windowsAdminUsername'), variables('encodedPassword'), parameters('spnClientId'), parameters('spnClientSecret'), parameters('spnTenantId'), subscription().subscriptionId, resourceGroup().name, parameters('location'), parameters('stagingStorageAccountName'), parameters('workspaceName'), parameters('templateBaseUrl'), parameters('registerCluster'), parameters('deployAKSHCI'), parameters('deployResourceBridge'), parameters('natDNS'), parameters('azureUsername'), parameters('azurePassword'))]" }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-              ]
+              }
             }
           ],
           "outputs": {
