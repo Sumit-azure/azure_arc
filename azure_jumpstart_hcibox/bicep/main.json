@@ -364,9 +364,7 @@
           "templateBaseUrl": {
             "value": "[variables('templateBaseUrl')]"
           },
-          "subnetId": {
-            "value": "[reference(resourceId('Microsoft.Resources/deployments', 'networkDeployment'), '2020-10-01').outputs.subnetId.value]"
-          },
+       
           "deployBastion": {
             "value": "[parameters('deployBastion')]"
           },
@@ -551,29 +549,7 @@
             }
           },
           "resources": [
-            {
-              "type": "Microsoft.Network/networkInterfaces",
-              "apiVersion": "2021-03-01",
-              "name": "[variables('networkInterfaceName')]",
-              "location": "[parameters('location')]",
-              "properties": {
-                "ipConfigurations": [
-                  {
-                    "name": "ipconfig1",
-                    "properties": {
-                      "subnet": {
-                        "id": "[parameters('subnetId')]"
-                      },
-                      "privateIPAllocationMethod": "Dynamic",
-                      "publicIPAddress": "[if(equals(parameters('deployBastion'), false()), variables('PublicIPNoBastion'), json('null'))]"
-                    }
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]"
-              ]
-            },
+         
             {
               "condition": "[equals(parameters('deployBastion'), false())]",
               "type": "Microsoft.Network/publicIPAddresses",
@@ -662,10 +638,6 @@
               "type": "string",
               "value": "[parameters('windowsAdminUsername')]"
             },
-            "publicIP": {
-              "type": "string",
-              "value": "[if(equals(parameters('deployBastion'), false()), concat(reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName')), '2021-03-01').ipAddress), '')]"
-            },
               "ARCHost VM DNS": {
       "value": "[concat('archost',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
       "type": "string"
@@ -678,7 +650,7 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'networkDeployment')]",
+       
         "[resourceId('Microsoft.Resources/deployments', 'stagingStorageAccountDeployment')]"
       ]
     }
