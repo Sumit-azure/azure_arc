@@ -533,7 +533,8 @@
       "type": "string"
     },
 		  "subscriptionId": {
-			  "value": "subscription().subscriptionId"
+			  "type": "string"
+			  "defaultValue": "subscription().subscriptionId"
 		  }
           },
           "variables": {
