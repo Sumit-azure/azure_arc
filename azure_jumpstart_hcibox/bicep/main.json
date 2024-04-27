@@ -615,8 +615,8 @@
               "type": "string",
               "value": "[parameters('windowsAdminUsername')]"
             },
-              "ARCHost VM DNS": {
-      "value": "[concat('archost',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
+              "HCIHost VM DNS": {
+      "value": "[concat('hciboxclient',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
       "type": "string"
     },
             "base64Output": {
@@ -633,8 +633,8 @@
     }
   ],
   "outputs":{
-     "ARCHost VM DNS": {
-      "value": "[concat('archost',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
+     "HCIHost VM DNS": {
+      "value": "[concat('hciboxclient',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
       "type": "string"
     },
     "ARCHost VM username": {
