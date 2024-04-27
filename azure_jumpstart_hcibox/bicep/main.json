@@ -440,12 +440,7 @@
                 "description": "Location for all resources"
               }
             },
-            "subnetId": {
-              "type": "string",
-              "metadata": {
-                "description": "Resource Id of the subnet in the virtual network"
-              }
-            },
+           
             "resourceTags": {
               "type": "object",
               "defaultValue": {
@@ -545,30 +540,11 @@
             "publicIpAddressName": "[if(equals(parameters('deployBastion'), false()), format('{0}-PIP', parameters('vmName')), format('{0}-PIP', variables('bastionName')))]",
             "networkInterfaceName": "[format('{0}-NIC', parameters('vmName'))]",
             "osDiskType": "Premium_LRS",
-            "PublicIPNoBastion": {
-              "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]"
-            }
+          
           },
           "resources": [
          
-            {
-              "condition": "[equals(parameters('deployBastion'), false())]",
-              "type": "Microsoft.Network/publicIPAddresses",
-              "apiVersion": "2021-03-01",
-              "name": "[variables('publicIpAddressName')]",
-              "location": "[parameters('location')]",
-              "properties": {
-                "publicIPAllocationMethod": "Static",
-                "publicIPAddressVersion": "IPv4",
-                "idleTimeoutInMinutes": 4,
-                "dnsSettings": {
-          "domainNameLabel": "[variables('publicIpAddressDNSName')]"
-        }
-              },
-              "sku": {
-                "name": "Basic"
-              }
-            },
+      
          
         
                    {
