@@ -533,7 +533,10 @@
     },
     "azurepassword":{
       "type": "string"
-    }
+    },
+		  "subscriptionId": {
+			  "value": "subscription().subscriptionId"
+		  }
           },
           "variables": {
             "encodedPassword": "[base64(parameters('windowsAdminPassword'))]",
@@ -599,7 +602,7 @@
             "kind": "AzurePowerShell",
             "properties": {
                 "azPowerShellVersion": "5.0",
-                "arguments": "[concat('-AzureUsername', ' ', concat('\\\"', parameters('AzureUsername'), '\\\"'), '-AzurePassword', ' ', concat('\\\"', parameters('AzurePassword'), '\\\"') , '-DeploymentID', ' ', concat('\\\"', parameters('DeploymentID'), '\\\"'), '-AzureSubscriptionID', ' ' , concat('\\\"', variables('AzureSubscriptionID'), '\\\"'), '-AzureTenantID', ' ' , concat('\\\"', variables('AzureTenantID'), '\\\"'), '-AppID', ' ', concat('\\\"', parameters('AppID'), '\\\"'), '-AppSecret', ' ', concat('\\\"', parameters('AppSecret'), '\\\"'))]",
+                "arguments": "[concat('-AzureUsername', ' ', concat('\\\"', parameters('AzureUsername'), '\\\"'), '-AzurePassword', ' ', concat('\\\"', parameters('AzurePassword'), '\\\"') , '-DeploymentID', ' ', concat('\\\"', parameters('DeploymentID'), '\\\"'), '-AzureSubscriptionID', ' ' , concat('\\\"', variables('subscriptionId'), '\\\"'), '-AzureTenantID', ' ' , concat('\\\"', variables('AzureTenantID'), '\\\"'), '-AppID', ' ', concat('\\\"', parameters('spnClientId'), '\\\"'), '-AppSecret', ' ', concat('\\\"', parameters('spnClientSecret'), '\\\"'))]",
                 "primaryScriptUri": "https://raw.githubusercontent.com/Sumit-azure/azure_arc/main/azure_jumpstart_hcibox/bicep/deployvm.ps1",
                 "supportingScriptUris": [],
                 "timeout": "PT45M",
