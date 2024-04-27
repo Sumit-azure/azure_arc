@@ -86,7 +86,7 @@ $nic = New-AzNetworkInterface `
 
 $vmConfig = New-AzVMConfig `
    -VMName $vmName `
-   -VMSize Standard_E16s_v5  | `
+   -VMSize Standard_E32s_v5  | `
    Set-AzVMSourceImage -Id $imageDefinitionId | `
    Add-AzVMNetworkInterface -Id $nic.Id
 
