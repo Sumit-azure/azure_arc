@@ -30,7 +30,10 @@ Login-AzAccount -ServicePrincipal -Credential $cred -Tenant $tenant2
 
 $DNS = "hciboxclient" + $DeploymentID
 $resourceGroup = "AzurestackHCI"
-$location = "eastus"
+
+$rg = Get-AzResourceGroup -Name $resourceGroup
+
+$location = $rg.Location
 $vmName = "HCIBox-Client"
 
 # Get the image. Replace the name of your resource group, gallery, and image definition. This will create the VM from the latest image version available.
