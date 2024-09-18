@@ -17,7 +17,7 @@ Param (
 )
 
 $applicationId = 'b91cc0cf-dd39-4469-b8e7-c11e8e2ee5da'
-$secret = 'pTc8Q~52.w5kgEKKNIOlLIRIdCSjGsykUSaTtdop' | ConvertTo-SecureString -AsPlainText -Force
+$secret = 'G~-8Q~Kb-6EUu4W2YImCldAhYhJS-aiJjzGmdc6d' | ConvertTo-SecureString -AsPlainText -Force
 $tenant1 = "b69eefee-f0a7-410b-b594-e4f23ba11195"
 $tenant2 = $AzureTenantID
 $cred = New-Object -TypeName PSCredential -ArgumentList $applicationId, $secret
