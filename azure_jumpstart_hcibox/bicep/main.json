@@ -642,7 +642,7 @@
       "type": "string"
     },
     "ARCHost VM password": {
-      "value": "Password1!!",
+      "value": "Password.1!!",
       "type": "string"
     }
 
