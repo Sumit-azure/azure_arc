@@ -12,10 +12,10 @@
       "value": "GET-DEPLOYMENT-ID"
     },
         "windowsAdminUsername": {
-            "value": "arcdemo"
+            "value": "azureuser"
         },
         "windowsAdminPassword": {
-            "value": "ArcPassword123!!"
+            "value": "Password1!!"
         },
         "logAnalyticsWorkspaceName": {
             "value": "HCIBox-Workspace"
