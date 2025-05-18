@@ -15,7 +15,7 @@
             "value": "azureuser"
         },
         "windowsAdminPassword": {
-            "value": "Password1!!"
+            "value": "Password.1!!"
         },
         "logAnalyticsWorkspaceName": {
             "value": "HCIBox-Workspace"
