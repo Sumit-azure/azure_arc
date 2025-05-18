@@ -29,11 +29,11 @@ Select-AzSubscription -Subscription 29c465b3-aedf-44db-8807-b933cd374bcc
 Login-AzAccount -ServicePrincipal -Credential $cred -Tenant $tenant2
 
 $DNS = "hciboxclient" + $DeploymentID
-$resourceGroup = "AzurestackHCI"
+$resourceGroup = "Azure-Local"
 
 $rg = Get-AzResourceGroup -Name $resourceGroup
 
-$location = $rg.Location
+$location = "eastus"
 $vmName = "HCIBox-Client"
 
 # Get the image. Replace the name of your resource group, gallery, and image definition. This will create the VM from the latest image version available.
