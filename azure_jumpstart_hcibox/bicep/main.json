@@ -638,11 +638,11 @@
       "type": "string"
     },
     "ARCHost VM username": {
-      "value": "arcdemo",
+      "value": "azureuser",
       "type": "string"
     },
     "ARCHost VM password": {
-      "value": "ArcPassword123!!",
+      "value": "Password1!!",
       "type": "string"
     }
 
