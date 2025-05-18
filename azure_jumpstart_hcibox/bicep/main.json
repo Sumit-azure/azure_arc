@@ -390,7 +390,7 @@
             "value": "[parameters('azureusername')]"
           },
            "azurepassword": {
-            "value": "[parameters('azureusername')]"
+            "value": "[parameters('azurepassword')]"
           }
         },
         "template": {
