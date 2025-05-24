@@ -18,7 +18,7 @@
             "value": "Password.1!!"
         },
         "logAnalyticsWorkspaceName": {
-            "value": "HCIBox-Workspace"
+            "value": "localBox-Workspace"
         },
         "deployBastion": {
             "value": false
