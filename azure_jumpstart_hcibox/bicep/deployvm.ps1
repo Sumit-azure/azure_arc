@@ -28,13 +28,13 @@ Select-AzSubscription -Subscription 29c465b3-aedf-44db-8807-b933cd374bcc
 
 Login-AzAccount -ServicePrincipal -Credential $cred -Tenant $tenant2
 
-$DNS = "hciboxclient" + $DeploymentID
+$DNS = "localboxclient" + $DeploymentID
 $resourceGroup = "Azure-Local"
 
 $rg = Get-AzResourceGroup -Name $resourceGroup
 
 $location = "eastus"
-$vmName = "HCIBox-Client"
+$vmName = "LocalBox-Client"
 
 # Get the image. Replace the name of your resource group, gallery, and image definition. This will create the VM from the latest image version available.
 
@@ -49,14 +49,14 @@ $subnetConfig = New-AzVirtualNetworkSubnetConfig `
 $vnet = New-AzVirtualNetwork `
    -ResourceGroupName $resourceGroup `
    -Location $location `
-   -Name HybridHostHCI-vnet `
+   -Name HybridHostlocal-vnet `
    -AddressPrefix 10.0.0.0/16 `
    -Subnet $subnetConfig
 
 $pip = New-AzPublicIpAddress `
    -ResourceGroupName $resourceGroup `
    -Location $location `
-  -Name HybridHostHCI-pip `
+  -Name HybridHostlocal-pip `
   -AllocationMethod Static `
   -IdleTimeoutInMinutes 4 `
   -DomainNameLabel $DNS
@@ -74,11 +74,11 @@ $nsgRuleRDP = New-AzNetworkSecurityRuleConfig `
 $nsg = New-AzNetworkSecurityGroup `
    -ResourceGroupName $resourceGroup `
    -Location $location `
-   -Name HybridHostHCI-nsg `
+   -Name HybridHostlocal-nsg `
    -SecurityRules $nsgRuleRDP
 
 $nic = New-AzNetworkInterface `
-   -Name HybridHostHCI-nic `
+   -Name HybridHostlocal-nic `
    -ResourceGroupName $resourceGroup `
    -Location $location `
   -SubnetId $vnet.Subnets[0].Id `
