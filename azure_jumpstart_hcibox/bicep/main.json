@@ -119,7 +119,7 @@
   "variables": {
     "AzureTenantID": "[subscription().tenantId]",
     
-    "templateBaseUrl": "https://raw.githubusercontent.com/CloudLabsAI-Azure/azure_arc_2024/sumit-automation/azure_jumpstart_hcibox/"
+    "templateBaseUrl": "https://raw.githubusercontent.com/Sumit-azure/azure_arc25/main/azure_jumpstart_hcibox/"
   },
   "resources": [
     {
@@ -634,7 +634,7 @@
   ],
   "outputs":{
      "HCIHost VM DNS": {
-      "value": "[concat('hciboxclient',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
+      "value": "[concat('localboxclient',parameters('DeploymentID'), '.', resourceGroup().location, '.cloudapp.azure.com')]",
       "type": "string"
     },
     "ARCHost VM username": {
